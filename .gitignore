@@ -1,0 +1,22 @@
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore SQLite database file
+*.sqlite3
+*.db
+
+# Ignore Virtual Environment
+venv/
+.env
+.venv/
+
+# Ignore Logs
+logs/
+*.log
+
+# Ignore Mac & Windows system files
+.DS_Store
+Thumbs.db
