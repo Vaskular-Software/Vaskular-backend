@@ -2,7 +2,11 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import sqlite3
 import openai
+import os
+from dotenv import load_dotenv
 
+load_dotenv()  # Load .env file
+openai.api_key = os.getenv("OPENAI_API_KEY")  # Load API Key securely
 
 app = FastAPI()
 
@@ -10,15 +14,7 @@ app = FastAPI()
 def read_root():
     return {"message": "Vaskular Backend is Live!"}
 
-@app.post("/submit_scores/")
-def submit_scores(data: dict):
-    return {"response": "Scores received!", "data": data}
-
-
-# Replace with your OpenAI API key
-OPENAI_API_KEY = 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
-
-DB_NAME = "vaskular.db"
+DB_NAME = "/tmp/vaskular.db" if "RENDER" in os.environ else "vaskular.db"
 
 def get_db_connection():
     conn = sqlite3.connect(DB_NAME)
@@ -76,7 +72,6 @@ def get_recovery_plan(user_id: str):
 
     circulation, oxygen, swelling_risk, fatigue = row["circulation"], row["oxygen"], row["swelling_risk"], row["fatigue"]
 
-    openai.api_key = OPENAI_API_KEY
     prompt = f"Based on these health scores: Circulation: {circulation}%, Oxygen: {oxygen}%, Swelling Risk: {swelling_risk}%, Fatigue: {fatigue}%, what should this athlete do for optimal recovery?"
     
     response = openai.ChatCompletion.create(
