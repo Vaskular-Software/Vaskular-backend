@@ -3,10 +3,20 @@ from pydantic import BaseModel
 import sqlite3
 import openai
 
+
 app = FastAPI()
 
+@app.get("/")
+def read_root():
+    return {"message": "Vaskular Backend is Live!"}
+
+@app.post("/submit_scores/")
+def submit_scores(data: dict):
+    return {"response": "Scores received!", "data": data}
+
+
 # Replace with your OpenAI API key
-OPENAI_API_KEY = "your_openai_api_key"
+OPENAI_API_KEY = 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
 
 DB_NAME = "vaskular.db"
 
